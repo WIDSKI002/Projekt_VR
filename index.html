@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Java</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const questions = [
+                {
+                    text: "Czy od obiektu klasy java.util.concurrent.Semaphore można uzyskać zawsze tylko jedno zezwolenie w danej chwili?",
+                    options: ["Prawda", "Fałsz"],
+                    answer: "Fałsz"
+                },
+                {
+                    text: "Jaka jest pojemność wewnętrznego bufora kolejki SynchronousQueue?",
+                    options: ["a. jest elastyczny", "b. 10", "c. 2", "d. 3", "e. 5", "f. zależy od wartości podanej podczas tworzenia obiektu", "g. 0", "h. 1"],
+                    answer: "g. 0"
+                },
+                {
+                    text: "Ile procesów na raz może wymieniać się buforami przy pomocy obiektu klasy Exchanger?",
+                    options: ["a. 3", "b. 4", "c. dowolna, parzysta ilość", "d. 2", "e. 1", "f. tyle, ile było zarejestrowanych"],
+                    answer: "d. 2"
+                },
+                {
+                    text: "Czy kolekcja HashSet podczas obsługi współbieżnej musi być synchronizowana w celu zapewnienia pełnej spójności danych?",
+                    options: ["Prawda", "Fałsz"],
+                    answer: "Prawda"
+                },
+                {
+                    text: "Dla której z podanych poniżej kolekcji nie można wywoływać metody remove()?",
+                    options: ["a. ConcurrentMap", "b. unmodifiableClollection", "c. synchronizedCollection", "d. Collection"],
+                    answer: "b. unmodifiableClollection"
+                },
+                {
+                    text: "Czy kolekcja zwracana przez metodę Collections.synchronizedXXX() wymaga ręcznej synchronizacji?",
+                    options: ["Prawda", "Fałsz"],
+                    answer: "Prawda"
+                },
+                {
+                    text: "Która z poniższych metod powoduje zablokowanie procesu do czasu skutecznego pobrania danych z kolejki BlockingQueue?",
+                    options: ["a. remove()", "b. poll(time, unit)", "c. take()", "d. poll()"],
+                    answer: "c. take()"
+                },
+                {
+                    text: "Czy obiekt klasy CountDownLatch może być używany wielokrotnie?",
+                    options: ["Prawda", "Fałsz"],
+                    answer: "Fałsz"
+                },
+                {
+                    text: "CopyOnWriteArraySet nie wymaga synchronizacji, ponieważ",
+                    options: ["a. Podczas iteracji kolekcji nie możliwe jest jej modyfikowanie", "b. Podczas odczytu tworzony jest obraz kolekcji, aby dany proces posiadał własną kopię", "c. Posiada wbudowany mechanizm synchronizacji", "d. Podczas zapisu tworzona jest nowa kopia kolekcji"],
+                    answer: "d. Podczas zapisu tworzona jest nowa kopia kolekcji"
+                },
+                {
+                    text: "Kolekcja CopyOnWriteArrayList:",
+                    options: ["a. Może zwrócić wyjątek ConcurrentModificationException", "b. Podczas modyfikacji należy dokonać jej ręcznego skopiowania.", "c. Może być modyfikowana jedynie przez metodę CopyOnWriteArraySet", "d. Są opłacalne w użyciu, jeżeli jest dużo więcej operacji iteracji niż dodawania."],
+                    answer: "d. Są opłacalne w użyciu, jeżeli jest dużo więcej operacji iteracji niż dodawania."
+                },
+                {
+                    text: "Czy po otworzeniu bariery klasy CyclicBarier w celu ponownego jej zamknięcia konieczne jest utworzenie nowego obiektu tej klasy?",
+                    options: ["Prawda", "Fałsz"],
+                    answer: "Fałsz"
+                },
+                {
+                    text: "Czy kolejka SynchronousQueue umożliwia jedynie jednokierunkowe przekazywanie obiektów?",
+                    options: ["Prawda", "Fałsz"],
+                    answer: "Fałsz"
+                },
+                {
+                    text: "Co się stanie, jeżeli podczas iteracji instancji klasy Vector, element kolekcji zostanie współbieżnie usunięty?",
+                    options: ["a. Zgłoszony zostanie wyjątek ConcurrentModificationException", "b. Zgłoszony zostanie wyjątek ArrayOutOfBoundException", "c. Usuwany element zostanie jedynie pominięty podczas iteracji", "d. Wynik operacji będzie nieświeży."],
+                    answer: "a. Zgłoszony zostanie wyjątek ConcurrentModificationException"
+                },
+                {
+                    text: "Czy dostęp współbieżny do zapisu kolekcji ConcurrentHashMap jest ograniczony dla pewnej puli wątków?",
+                    options: ["a. Prawda", "b. Fałsz"],
+                    answer: "a. Prawda"
+                },
+                {
+                    text: "Czy kolekcja zwracana przez metodę Collections.synchronizedXXX() nie wymaga ręcznej synchronizacji",
+                    options: ["Prawda", "Fałsz"],
+                    answer: "Fałsz"
+                },
+                {
+                    text: "Obiekt klasy Phaser:",
+                    options: ["a. Może mieć zmienną liczbę procesów oczekujących", "b. Nie może być użyty ponownie", "c. Rejestrowana może być dowolnie duża liczba wątków", "d. Nie udostępnia liczby procesów, na które jeszcze oczekuje"],
+                    answer: "a. Może mieć zmienną liczbę procesów oczekujących"
+                },
+                {
+                    text: "Czy instancja klasy Phaser może zakończyć działanie?",
+                    options: ["Prawda", "Fałsz"],
+                    answer: "Prawda"
+                }
+            ];
+
+            function shuffle(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
+
+            shuffle(questions);
+
+            const quizContainer = document.getElementById("quiz");
+
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement("div");
+                questionDiv.classList.add("question");
+
+                const questionText = document.createElement("p");
+                questionText.textContent = `${index + 1}. ${q.text}`;
+                questionDiv.appendChild(questionText);
+
+                q.options.forEach(option => {
+                    const label = document.createElement("label");
+                    const input = document.createElement("input");
+                    input.type = "radio";
+                    input.name = `question${index}`;
+                    input.value = option;
+                    label.appendChild(input);
+                    label.append(option);
+                    questionDiv.appendChild(label);
+                    questionDiv.appendChild(document.createElement("br"));
+                });
+
+                quizContainer.appendChild(questionDiv);
+            });
+
+            document.getElementById("checkAnswers").addEventListener("click", () => {
+                let score = 0;
+                let result = "";
+
+                questions.forEach((q, index) => {
+                    const selected = document.querySelector(`input[name=question${index}]:checked`);
+                    if (selected && selected.value === q.answer) {
+                        score++;
+                        result += `${index + 1}. Poprawna\n`;
+                    } else {
+                        result += `${index + 1}. Błędna (Prawidłowa: ${q.answer})\n`;
+                    }
+                });
+
+                alert(`Wynik: ${score}/${questions.length}\n\n${result}`);
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Quiz Java</h1>
+    <div id="quiz"></div>
+    <button id="checkAnswers">Sprawdź odpowiedzi</button>
+</body>
+</html>
